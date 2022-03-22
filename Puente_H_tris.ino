@@ -29,7 +29,6 @@ void loop() {
   
   // Si el valor de la potencia sale del rango deseado
   // la ajustamos.
-  
   if(potencia<=0 or potencia >=255){
     incremento=-incremento;
   }
