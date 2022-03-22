@@ -1,38 +1,46 @@
+
+// Definimos las variables de los puertos
+// que utlizaremos.
 #define MotA 10
 #define MotB 11
 #define aux 9
 #define Pot A0
+
+// Variables auxiliares
 int val=0;
 int potencia=0;
 int incremento=1;
 float voltage;
 
 void setup() {
-  // put your setup code here, to run once:
+  // Inicializamos la comunicación serial
+  // y los puertos en modo salida
   Serial.begin(9600);
   pinMode(MotA, OUTPUT);
   pinMode(MotB, OUTPUT);
 }
 
 void loop() {
-  //potencia = potencia + incremento;
-  //Serial.println(potencia);
-  //if(potencia<=0 or potencia >=255){
-    //incremento=-incremento;
-  //}
-  //Leemos el voltaje que esta recibiendo por parte del potenciometro
+  // Leemos el voltaje que esta recibiendo por
+  // parte del potenciometro
   val= analogRead(Pot);
-  //Hacemos la conversion
+  
+  //Hacemos la conversion a volts.
   voltage = val*(5.0/1023.0);
-  //Condicionamos para que solo encienda si es igual o mayor que 3V
-  //Serial.println(voltage);
+  
+  // Si el voltaje es < 2 usamos la función
+  // Levogiro
   if(voltage<2 ){
     potencia = map(val,0,408,255,40);
     Levogiro();
+    
+  // Si esta entre 2 y 3, Freno Pasivo
   } else if(voltage >2 and voltage<3){
     potencia = 0;
     Detenido();
   } else {
+    
+  // Por último, > 3, Dextrogiro
     potencia = map(val,612,1023,40,255);
     Dextrogiro();
   }
@@ -50,6 +58,7 @@ void Levogiro (){
   Serial.println(potencia);
 }
 
+//Función Dextrogiro
 void Dextrogiro (){
   analogWrite(aux,potencia);
   digitalWrite(MotA, LOW);
@@ -60,7 +69,9 @@ void Dextrogiro (){
   Serial.println(potencia);
 }
 
+//Función Frenos Pasivo
 void Detenido (){
+  analogWrite(aux,0);
   digitalWrite(MotA, LOW);
   digitalWrite(MotB, LOW);
   Serial.print("Freno pasivo ");
