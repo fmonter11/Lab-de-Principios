@@ -1,15 +1,20 @@
+// Definimos las variables de los puertos
+// que utlizaremos.
 #define MotA 10
 #define MotB 11
 
 void setup() {
-  // put your setup code here, to run once:
+  // Inicializamos la comunicación serial
+  // y los puertos en modo salida
   Serial.begin(9600);
   pinMode(MotA, OUTPUT);
   pinMode(MotB, OUTPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // Declaramos los diferentes estados
+  // y damos un delay de 1 segundo entre
+  // cada uno de ellos.
   digitalWrite(MotA, HIGH);
   digitalWrite(MotB, LOW);
   Serial.println("Levogiro");
